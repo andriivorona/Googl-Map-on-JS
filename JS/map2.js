@@ -1,9 +1,9 @@
-var markersData = [
+let markersData = [
 {
-        lat: 49.828254,      // Широта
-        lng: 23.994680,     // Долгота
-        name: "Lviv",       // Произвольное название, которое будем выводить в информационном окне
-        address:"м. Львів, вул.Антоновича 102"    // Адрес, который также будем выводить в информационном окне
+        lat: 49.828254,      // Latitude
+        lng: 23.994680,     // Longitude
+        name: "Lviv",       //An arbitrary name that will be displayed in the information window
+        address:"м. Львів, вул.Антоновича 102"    //The address, which will also be displayed in the information window
     }, 
     {
         lat: 48.620800,
@@ -15,49 +15,49 @@ var markersData = [
     ];
 
 
-    var map, infoWindow;
+    let map, infoWindow;
     function initMap() {
-        var centerLatLng = new google.maps.LatLng(49.828254, 23.994680);
-        var mapOptions = {
+        let centerLatLng = new google.maps.LatLng(49.828254, 23.994680);
+        let mapOptions = {
             center: centerLatLng,
             zoom: 7
         };
         map = new google.maps.Map(document.getElementById("map"), mapOptions);
-    // Создаем объект информационного окна и помещаем его в переменную infoWindow
-    // Так как у каждого информационного окна свое содержимое, то создаем пустой объект, без передачи ему параметра content
+    // Create an info window object and place it in the infoWindow variable
+    // Since each information window has its own content, we create an empty object without passing it the content parameter
     infoWindow = new google.maps.InfoWindow();
-    // Отслеживаем клик в любом месте карты
+    //We track the click anywhere on the map
     google.maps.event.addListener(map, "click", function() {
-        // infoWindow.close - закрываем информационное окно.
+        // infoWindow.close - close the information window.
         infoWindow.close();
     });
-    // Перебираем в цикле все координата хранящиеся в markersData
-    for (var i = 0; i < markersData.length; i++){
-        var latLng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
-        var name = markersData[i].name;
-        var address = markersData[i].address;
-        // Добавляем маркер с информационным окном
+    // Loop through all the coordinates stored in markersData
+    for (let i = 0; i < markersData.length; i++){
+        let latLng = new google.maps.LatLng(markersData[i].lat, markersData[i].lng);
+        let name = markersData[i].name;
+        let address = markersData[i].address;
+        // Adding a marker with an information window
         addMarker(latLng, name, address);
     }
 }
 google.maps.event.addDomListener(window, "load", initMap);
-// Функция добавления маркера с информационным окном
+// Add marker function with info window
 function addMarker(latLng, name, address) {
-    var marker = new google.maps.Marker({
+    let marker = new google.maps.Marker({
         position: latLng,
         map: map,
         title: name
     });
-    // Отслеживаем клик по нашему маркеру
+    // Tracking a click on our marker
     google.maps.event.addListener(marker, "click", function() {
-        // contentString - это переменная в которой хранится содержимое информационного окна.
-        var contentString = '<div class="infowindow">' +
+        // contentString - it is a variable that stores the content of the info window.
+        let contentString = '<div class="infowindow">' +
         '<h3>' + name + '</h3>' +
         '<p>' + address + '</p>' +
         '</div>';
-        // Меняем содержимое информационного окна
+        //Changing the content of the information window
         infoWindow.setContent(contentString);
-        // Показываем информационное окно
+        // Show the information window
         infoWindow.open(map, marker);
     });
 }
